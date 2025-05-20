@@ -8,6 +8,7 @@
 body {
     font-family: 'Poppins', sans-serif;
     overflow-x: hidden;
+    transition: all 0.5s ease;
 }
 
 /* Navbar Styles */
@@ -74,7 +75,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #4CAF50 !important;
+    color: #E67E22 !important;
 }
 
 .social-logo {
@@ -234,6 +235,7 @@ body {
     height: 350px;
     display: flex;
     flex-direction: column;
+    background-color: #E67E22;
 }
 
 .menu-card:hover {
@@ -283,31 +285,46 @@ body {
 }
 
 /* Promo Section */
+/* Promo Section */
 .promo-section {
-    padding: 80px 0;
-    background: linear-gradient(135deg, #FF6B6B, #FF8E53);
-    color: white;
+    background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+    padding: 4rem 0;
 }
 
-.promo-section h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    position: relative;
+.promo-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+    height: 100%;
 }
 
-.promo-section h2::after {
-    content: '';
-    display: block;
-    width: 80px;
-    height: 4px;
-    background-color: white;
-    margin: 15px auto 0;
+.promo-card:hover {
+    transform: translateY(-5px);
+}
+
+.promo-card .card-body {
+    padding: 1.5rem;
+}
+
+.promo-card .promo-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ff4757;
+    margin: 0.5rem 0;
+}
+
+/* Price strike-through */
+.strike-through {
+    text-decoration: line-through;
+    color: #777;
+    margin-right: 0.5rem;
 }
 
 /* Testimonials Section */
 #testimonials {
     padding: 100px 0;
-    background-color: #f8f9fa;
+    background-color: #6b6b6b;
 }
 
 .testimonials h2 {
@@ -325,6 +342,53 @@ body {
     background-color: #4CAF50;
     margin: 15px auto 0;
 }
+
+/* Preloader wrapper */
+/* Welcome Screen Styles */
+#welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeOut 2s ease 2s forwards;
+}
+
+#welcome-screen h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeInScale 1.5s ease forwards;
+}
+
+#welcome-screen h1 span {
+  color: #E67E22; /* Warna aksen Locallius */
+}
+
+/* Animasi masuk */
+@keyframes fadeInScale {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Animasi keluar */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    pointer-events: none;
+    display: none;
+  }
+}
+
 
 /* Footer */
 footer {

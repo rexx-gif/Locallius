@@ -13,14 +13,14 @@ class MenuController extends Controller
     public function index()
     {
         $menus = Menu::all();
-        return view('landing', compact('menus'));
+        return view('menu', compact('menus'));
     }
 
     // Tampilkan halaman daftar menu untuk admin
     public function adminIndex()
     {
         $menus = Menu::all();
-        return view('admin.dashboard', compact('menus'));
+        return view('admin.menu.index', compact('menus'));
     }
 
     // Tampilkan form untuk membuat menu baru

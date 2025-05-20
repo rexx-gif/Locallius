@@ -249,7 +249,7 @@ style.textContent = `
         100% { transform: scale(1); }
     }
     .nav-link.active {
-        color: #4CAF50 !important;
+        color: #E67E22 !important;
         font-weight: bold;
         position: relative;
     }
@@ -260,7 +260,7 @@ style.textContent = `
         left: 0;
         width: 100%;
         height: 3px;
-        background: #4CAF50;
+        background: #E67E22;
         border-radius: 3px;
         animation: grow 0.3s ease;
     }

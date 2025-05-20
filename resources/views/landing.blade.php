@@ -18,7 +18,7 @@
     </section>
 
     {{-- About Section --}}
-    <section id="about" data-aos="fade-up" class="about-section py-5 bg-light">
+    <section id="about" data-aos="fade-in" class="about-section py-5 bg-light">
     <div class="container text-center">
         <h1 class="section-title mb-4">Tentang Kami</h1>
         <p class="about-text mx-auto mb-5">
@@ -62,7 +62,7 @@
         <div class="row g-4 justify-content-center">
             @foreach($menus as $menu)
             <div class="col-md-3">
-                <div class="card menu-card text-center bg-danger text-white p-3">
+                <div class="card menu-card text-center text-white p-3">
                     <img src="{{ asset($menu->image) }}" class="menu-image mx-auto d-block mb-2" alt="{{ $menu->name }}">
                     <h5 class="card-title">{{ $menu->name }}</h5>
                     <p class="card-text">{{ $menu->description }}</p>
@@ -73,19 +73,39 @@
         </div>
         
         <div class="text-center mt-4">
-            <a href="{{ url('/menu') }}" class="btn see-details-btn btn-lg">Lihat Semua Menu</a>
+            <a href="{{ route('menu') }}" class="btn see-details-btn btn-lg">Lihat Semua Menu</a>
         </div>
     </section>
     
     {{-- Promo Section --}}
-    <section id="promo" class="promo-section" data-aos="fade-up">
-        <div class="container">
-            <h2 class="text-center text-white mb-4">Promo Spesial Hari Ini</h2>
-            <div class="promo-slider">
-                <!-- Promo items will be loaded here via JavaScript -->
+    {{-- Promo Section --}}
+<section id="promo" class="promo-section" data-aos="fade-up">
+    <div class="container">
+        <h2 class="text-center text-white mb-4">Promo Spesial Hari Ini</h2>
+        <div class="row">
+            @foreach($promos as $promo)
+            <div class="col-md-4 mb-4">
+                <div class="card promo-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $promo->code }}</h5>
+                        <p class="card-text">{{ $promo->description }}</p>
+                        <div class="promo-value">
+                            @if($promo->type === 'percentage')
+                                {{ $promo->value }}% OFF
+                            @else
+                                Rp{{ number_format($promo->value, 0, ',', '.') }} OFF
+                            @endif
+                        </div>
+                        <small class="text-muted">
+                            Sisa kuota: {{ $promo->max_uses - $promo->uses }} dari {{ $promo->max_uses }}
+                        </small>
+                    </div>
+                </div>
             </div>
+            @endforeach
         </div>
-    </section>
+    </div>
+</section>
 
     {{-- Testimonial Section --}}
     <section id="testimonials" data-aos="fade-up">
@@ -96,7 +116,7 @@
             </div>
         </div>
     </section>
-@endsection
+    @endsection
 
 @push('scripts')
 <script src="asset{{ 'js/app.js' }}"></script>

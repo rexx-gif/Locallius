@@ -11,9 +11,15 @@
     @stack('styles')
 </head>
 <body>
+    <!-- Welcome Screen -->
+<div id="welcome-screen">
+  <h1>Welcome to <span>Locallius</span> </h1>
+</div>
+ <audio id="dingSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_7b038e232d.mp3" preload="auto"></audio>
+
     {{-- Navbar --}}
-    <div class="fixed-top">
-        <div class="navbar-container">
+    <div class="fixed-top" data-aos="fade-up">
+        <div class="navbar-container" data-aos="fade-up">
             <div class="email-info">
                 <p>
                     <a href="mailto:info@locallius.com">
@@ -45,10 +51,12 @@
                         <li class="nav-item"><a href="#hero" class="nav-link">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">Tentang Kami</a></li>
                         <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
-                        <li class="nav-item"><a class="nav-link btn btn-outline-success ms-2" href="#promo">Promo Hari Ini</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#promo">Promo Hari Ini</a></li>
                         <li class="nav-item"><a class="nav-link" href="#testimonials">Review</a></li>
+                        <li class="nav-item"><a href="#partners" class="nav-link">Partner</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
                         <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
+                        <li class="nav-item"><a href="{{ route('customer.register') }}" class="nav-link">Register</a></li>
                     </ul>
                 </div>
             </div>
@@ -225,6 +233,11 @@
         navbar.style.margin = '0px'
         navbar.classList.remove("transparent");
     }})
+
+     setTimeout(() => {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    welcomeScreen.style.display = 'none';
+  }, 4000); // waktu total animasi (2s masuk + 2s tampil)
     </script>
 </body>
 </html>

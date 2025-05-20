@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class AuthController extends Controller
@@ -14,42 +17,67 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+   public function login(Request $request)
 {
-    $credentials = $request->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required'],
-    ]);
+    $credentials = $request->only('email', 'password');
 
+    // Cek user berdasarkan email dulu
+    $user = User::where('email', $credentials['email'])->first();
+
+    if (!$user) {
+        return back()->withErrors(['email' => 'Email tidak ditemukan']);
+    }
+
+    // Cek password dan login
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
 
-        $user = Auth::user(); // Ambil user yang berhasil login
-
+        // Arahkan berdasarkan role
         if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
+            return redirect()->intended(route('admin.dashboard'));
+        } elseif ($user->role === 'customer') {
+            return redirect()->intended(route('home'));
+        } else {
+            Auth::logout();
+            return back()->withErrors(['email' => 'Akun tidak memiliki akses yang valid.']);
         }
-
-        // Kalau bukan admin, logout dan tolak akses
-        Auth::logout();
-        return back()->withErrors([
-            'email' => 'Akun ini tidak memiliki akses sebagai admin.',
-        ]);
     }
 
-    return back()->withErrors([
-        'email' => 'Login gagal. Cek kembali email dan password.',
-    ])->onlyInput('email');
+    return back()->withErrors(['password' => 'Password salah']);
 }
+
+public function showCustomerRegisterForm()
+{
+    return view('auth.register_customer');
+}
+
 
 
     public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect()->route('login');
 }
+public function registerCustomer(Request $request){
+    $request->validate([
+        'name'=>'required|string|max:255',
+        'email'=>'required|string|email|max:255',
+        'password'=>'required|string|min:6|confirmed',
+    ]);
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => 'customer', // atau 'pelanggan'
+    ]);
+    Auth::login(user);
+    $request->session()->regenerate();
+
+    return redirect()->intended(route('home'));
+}
+}
+
+
 

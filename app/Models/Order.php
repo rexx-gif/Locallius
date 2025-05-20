@@ -2,23 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'name',
-        'phone',
-        'menu_id',
-        'quantity',
-        'location',
-        'total_price'
-    ];
+    'customer_name',
+    'customer_address',
+    'customer_phone',
+    'notes',
+    'total_price',
+    'discount',
+    'payment_method',
+    'payment_channel',
+    'location',
+    'status'
+];
 
-    public function menu(){
-        return $this->belongsTo(Menu::class);
+    public function items()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }
+
+
