@@ -7,13 +7,33 @@
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
+        "autoprefixer": "^10.4.21",
         "axios": "^1.8.2",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.2.0",
-        "tailwindcss": "^4.0.0",
+        "postcss": "^8.5.3",
+        "tailwindcss": "^4.1.7",
         "vite": "^6.2.4"
     },
     "dependencies": {
         "puppeteer": "^24.8.2"
-    }
+    },
+    "name": "locallius",
+    "version": "1.0.0",
+    "description": "<p align=\"center\"><a href=\"https://laravel.com\" target=\"_blank\"><img src=\"https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg\" width=\"400\" alt=\"Laravel Logo\"></a></p>",
+    "main": "vite.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rexx-gif/Locallius.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/rexx-gif/Locallius/issues"
+    },
+    "homepage": "https://github.com/rexx-gif/Locallius#readme"
 }

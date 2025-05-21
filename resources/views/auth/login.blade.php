@@ -120,7 +120,7 @@
 <body>
 
   <div class="glass-container">
-    <h2>Login Admin Locallius</h2>
+    <h2>Login To Locallius</h2>
 
     @if ($errors->any())
       <div class="alert">
@@ -137,8 +137,16 @@
       <input type="password" name="password" id="password" placeholder="Masukkan password" required>
 
       <button type="submit" class="btn-login">Login</button>
+      <a href="{{ route('customer.register') }}">Register Here</a>
     </form>
   </div>
+<script>
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted || performance.getEntriesByType("navigation")[0].type === "back_forward") {
+            window.location.reload();
+        }
+    });
+</script>
 
 </body>
 </html>

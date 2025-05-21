@@ -7,11 +7,11 @@
     <style>
         .row{
             position: relative;
-            top: 100px;
+            top: 70px;
         }
         .container h2{
             position: relative;
-            top: 100px;
+            top: 80px;
         }
     </style>
 </head>
@@ -48,8 +48,8 @@
                         <hr>
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Jumlah Pesan</label>
-                            <input type="number" name="quantity" id="quantity" class="form-control" 
-                                   min="1" value="{{ $quantity }}" required>
+                           <input type="number" name="quantity" id="quantity" class="form-control" 
+                            min="1" max="{{ $menu->stock }}" value="{{ $quantity }}" required>
                             @error('quantity') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
                         <div class="d-flex justify-content-between">
@@ -84,7 +84,7 @@
                             @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-10">
                             <label for="notes" class="form-label">Catatan (opsional)</label>
                             <textarea name="notes" id="notes" class="form-control">{{ old('notes') }}</textarea>
                         </div>
@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        <div class="card mb-4 mt-4">
+        <div class="card mb-2 mt-5" style="margin-top: 100px; position: relative; top:50px;">
             <div class="card-body">
                 <h5 class="card-title">Promo</h5>
                 <div class="mb-3">
@@ -119,7 +119,7 @@
             </div>
         </div>
 
-        <div class="card mb-4">
+        <div class="card mb-4 mt-5">
             <div class="card-body">
                 <h5 class="card-title">Metode Pembayaran</h5>
                 <div class="mb-3">

@@ -128,10 +128,17 @@
                         <h5 class="card-title">{{ $menu->name }}</h5>
                         <p class="card-text">{{ $menu->description }}</p>
                         <p class="card-text fw-bold">Rp{{ number_format($menu->price, 0, ',', '.') }}</p>
+                        <p class="card-text text-muted">Stok: {{ $menu->stock }}</p> {{-- Tambahkan ini --}}
                         <div class="container-button">
-                            <a href="{{ route('order.show', $menu->id) }}" class="btn-pesan">
-                                <i class="fas fa-plus me-1"></i> Pesan Sekarang
-                            </a>
+                            @if($menu->stock > 0)
+    <a href="{{ route('order.show', $menu->id) }}" class="btn-pesan">
+        <i class="fas fa-plus me-1"></i> Pesan Sekarang
+    </a>
+@else
+    <span class="btn-pesan disabled" style="background-color: #ccc; cursor: not-allowed;">
+        Stok Habis
+    </span>
+@endif
                             {{-- <div class="keranjang">
                                 <button 
                                     class="btn btn-pesan add-to-cart-btn" 

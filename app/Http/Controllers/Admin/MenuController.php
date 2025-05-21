@@ -36,6 +36,8 @@ class MenuController extends Controller
             'name' => 'required',
             'price' => 'required|numeric',
             'description' => 'nullable',
+                'stock' => 'required|integer|min:0',
+
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -66,6 +68,8 @@ class MenuController extends Controller
             'name' => 'required',
             'price' => 'required|numeric',
             'description' => 'nullable',
+                'stock' => 'required|integer|min:0',
+
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

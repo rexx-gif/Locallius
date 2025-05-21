@@ -27,7 +27,7 @@
 
         nav{
             position: relative;
-            bottom: 165%;
+            bottom: 170%;
             width:100%;
             height: 90px;
         }

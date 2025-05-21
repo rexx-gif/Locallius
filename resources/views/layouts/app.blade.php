@@ -10,6 +10,45 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
+<style>
+   li.nav-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    padding: 0 15px;
+}
+
+li.nav-profile a {
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+}
+
+li.nav-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+/* Untuk gambar default jika tidak ada foto profil */
+li.nav-profile .default-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+}
+ul.navbar-nav{
+    position: relative;
+    left: 90px;
+}
+</style>
 <body>
     <!-- Welcome Screen -->
 <div id="welcome-screen">
@@ -57,7 +96,28 @@
                         <li class="nav-item"><a class="nav-link" href="#contact">Kontak</a></li>
                         <li class="nav-item"><a href="/login" class="nav-link">Login</a></li>
                         <li class="nav-item"><a href="{{ route('customer.register') }}" class="nav-link">Register</a></li>
-                    </ul>
+<li class="nav-profile">
+    @auth
+    @if(auth()->user()->profile_picture)
+    <img src="{{ asset('storage/' . auth()->user()->profile_picture) }}" 
+    alt="Foto Profil" 
+    class="profile-image"
+    onerror="this.onerror=null;this.src='{{ asset('/storage/UGRCAljDZqJlfZI0Rw1EsgQrodjekhDaMdnn06d1.jpg') }}'">
+    @else
+    <div class="default-avatar">
+        <i class="fas fa-user"></i>
+    </div>
+    @endif
+    @else
+    <div class="default-avatar">
+        <i class="fas fa-user"></i>
+    </div>
+    @endauth
+    <a href="{{ route('profile') }}" class="profile_link">
+    {{ auth()->user()->name ?? 'Guest' }}
+    </a>
+</li>
+</ul>
                 </div>
             </div>
         </nav>
@@ -206,38 +266,65 @@
     
     @stack('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            if (typeof AOS !== 'undefined') {
-                AOS.init({ duration: 500, once: false });
+    document.addEventListener('DOMContentLoaded', function () {
+        const navbar = document.querySelector(".navbar");
+        const socialIcon = document.querySelector(".social-logo");
+        const navbarContainer = document.querySelector(".navbar-container");
+
+        // Cek kalau elemen socialIcon ada
+        if (!socialIcon) return;
+
+        const originalSocialContent = socialIcon.innerHTML;
+
+        // Inisialisasi AOS jika tersedia
+        if (typeof AOS !== 'undefined') {
+            AOS.init({ duration: 500, once: false });
+        }
+
+        // Scroll listener
+        window.addEventListener("scroll", function () {
+            if (window.scrollY > 0) {
+                // Scroll ke bawah
+                navbarContainer.style.visibility = "hidden";
+                navbar.style.position = "relative";
+                navbar.style.bottom = "50px";
+                navbar.style.borderRadius = "16px";
+                navbar.style.margin = "15px";
+                socialIcon.style.transition = "opacity 0.3s ease, color 0.3s ease";
+                navbar.classList.add("transparent");
+
+                // Ganti ikon jadi teks
+                if (socialIcon.innerText.trim() !== "Locallius") {
+                    socialIcon.innerHTML = "Locallius";
+                    socialIcon.classList.add("as-text");
+                }
+
+            } else {
+                // Scroll di paling atas
+                navbarContainer.style.visibility = "visible";
+                navbar.style.position = "relative";
+                navbar.style.bottom = "0px";
+                navbar.style.borderRadius = "0px";
+                navbar.style.margin = "0px";
+                navbar.classList.remove("transparent");
+
+                // Kembalikan ikon
+                if (socialIcon.innerHTML !== originalSocialContent) {
+                    socialIcon.innerHTML = originalSocialContent;
+                    socialIcon.classList.remove("as-text");
+                }
             }
         });
 
-        window.addEventListener("scroll", function () {
-    const navbar = document.querySelector(".navbar");
-    const navbarContainer = document.querySelector(".navbar-container");
+        // Sembunyikan welcome screen setelah 4 detik
+        setTimeout(() => {
+            const welcomeScreen = document.getElementById('welcome-screen');
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'none';
+            }
+        }, 4000);
+    });
+</script>
 
-    if (window.scrollY > 0) {
-        // Sembunyikan .fixed-top dan tambahkan class transparent ke navbar
-        navbarContainer.style.visibility = "hidden";
-        navbar.style.position = 'relative';
-        navbar.style.bottom = '50px';
-        navbar.style.borderRadius = '16px';
-        navbar.style.margin = '15px'
-        navbar.classList.add("transparent");
-    } else {
-        // Tampilkan kembali .fixed-top saat di atas
-        navbarContainer.style.visibility = "visible";
-        navbar.style.position = 'relative';
-        navbar.style.bottom = '0px';
-        navbar.style.borderRadius = '0px';
-        navbar.style.margin = '0px'
-        navbar.classList.remove("transparent");
-    }})
-
-     setTimeout(() => {
-    const welcomeScreen = document.getElementById('welcome-screen');
-    welcomeScreen.style.display = 'none';
-  }, 4000); // waktu total animasi (2s masuk + 2s tampil)
-    </script>
 </body>
 </html>

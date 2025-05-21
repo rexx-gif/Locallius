@@ -40,4 +40,8 @@ class HomeController extends Controller
         // Kirim data ke view landing.blade.php
         return view('landing', compact('menus', 'promos'));
     }
+    public function home(){
+        $user = Auth::user();
+        return view('landing', compact('user'));
+    }
 }

@@ -28,5 +28,14 @@ class PromoSeeder extends Seeder
             'uses' => 0,
             'active' => true,
         ]);
+        Promo::create([
+            'code' => 'LOCALLIUS',
+            'description' => 'Diskon Rp.5000 untuk pembelian minimum Rp50.000',
+            'type' => 'fixed',
+            'value' => 15000,
+            'max_uses' => 50,
+            'uses' => 0,
+            'active' => true,
+        ]);
     }
 }

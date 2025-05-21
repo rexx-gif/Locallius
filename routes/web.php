@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PromoController;
+use App\Http\Controllers\ProfileController;
+
 
 // Landing Page - accessible to all
 Route::get('/', function () {
@@ -14,9 +16,27 @@ Route::get('/', function () {
         (object)[
             'name' => 'Nasi Goreng',
             'description' => 'Nasi goreng lezat dengan bumbu spesial',
-            'price' => 25000,
+            'price' => 20000,
             'image' => 'asset/menu/nasigoreng.jpg'
         ],
+        (object)[
+            'name' => 'Mie Goreng',
+            'description' => 'Mie goreng yg lezat',
+            'price' => 15000,
+            'image' => 'asset/menu/miegoreng.jpg'
+        ],
+        (object)[
+            'name' => 'Kwetiau Goreng',
+            'description' => 'Kwetiaw goreng yg lezat',
+            'price' => 25000,
+            'image' => 'asset/menu/kwetiau.jpg'
+        ],
+        (object)[
+            'name' => 'Ayam Geprek',
+            'description' => 'Ayam Geprek yg lezat',
+            'price' => 25000,
+            'image' => 'asset/menu/ayamgeprek.jpg'
+        ]
     ];
     $promos = App\Models\Promo::where('valid_until', '>=', now())
                ->orWhereNull('valid_until')
@@ -44,7 +64,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 // Admin routes - requires login
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Ganti ke OrderController agar dashboard berisi data penjualan
+    Route::get('/dashboard', [OrderController::class, 'dashboard'])->name('dashboard');
+
     Route::get('/menu', [MenuController::class, 'adminIndex'])->name('menu.index');
     Route::get('/menu/create', [MenuController::class, 'create'])->name('menu.create');
     Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
@@ -92,3 +115,16 @@ Route::get('/test-email', function () {
         return 'Error: ' . $e->getMessage();
     }
 });
+Route::get('/profile', function () {
+    return view('customer.profile_customer');
+})->middleware('auth')->name('profile');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/admin/pesanan', [OrderController::class, 'index'])->name('admin.pesanan');
+Route::get('/admin/laporan-user', [OrderController::class, 'laporanUser'])->name('admin.laporan.user');
+
+
